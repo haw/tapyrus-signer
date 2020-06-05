@@ -9,7 +9,7 @@ After setting up with [How to set up new Tapyrus Signer Network](./setup.md), We
 * **signer.toml**: This is a configuration file for general purpose to pass the arguments to `tapyrus-signerd`.
 * **federations.toml**: This is a data file, which hosts federation parameters.
 
-You can set arguments that can be set on signer.toml is also able to set as command-line arguments. 
+You can set arguments that can be set on signer.toml is also able to set as command-line arguments.
 You can get the details of command-line arguments on `-h` option like below:
 
 ```
@@ -52,7 +52,7 @@ OPTIONS:
                                           default RPC ports are here. For production chain: `2377`. For development
                                           chain: `12381`.
         --rpc-user <USER>                 TapyrusCore RPC user name.
-```  
+```
 
 ## signer.toml
 
@@ -108,9 +108,9 @@ Specify the pid file path. This option is enabled when the node got '--daemon' f
 * `log-file`
 Specify where log file export to. This option is enabled when the node got '--daemon' flag.
 If not, logs are put on stdout and stderr.
-* `skip-waiting-ibd` is a flag make signer node don't waiting connected Tapyrus full node finishes Initial Block 
-Download when signer node started. When block creation stopped much time, The status of Tapyrus full node changes to 
-progressing Initial Block Download. In this case, block creation is never resume, because signer node waits the status 
+* `skip-waiting-ibd` is a flag make signer node don't waiting connected Tapyrus full node finishes Initial Block
+Download when signer node started. When block creation stopped much time, The status of Tapyrus full node changes to
+progressing Initial Block Download. In this case, block creation is never resume, because signer node waits the status
 is back to non-IBD. So you can use this flag to start signer node with ignore tapyrus full node status.
 This is optional, default false.
 
@@ -119,7 +119,7 @@ This is optional, default false.
 `[signer]` section is a set of settings for the consensus algorithm used in Tapyrus Signer/Core Network.
 
 * `to-address`
-This is required. 
+This is required.
 This address is used for coinbase transaction outputs in blocks which is proposed by the signer.
 * `public-key`
 This is required. This specifies the signer's public key, who hosted the node.
@@ -135,10 +135,10 @@ This is required. This specifies the path to the TOML file of the federations of
 This is optional.
 TapyrusCore RPC endpoint hostname. The default value is `127.0.0.1`.
 * `rpc-endpoint-port`
-This is optional. 
+This is optional.
 This is the Tapyrus Core RPC endpoint port number.
 The default is `2377` (production chain).
-Tapyrus-Core default RPC ports are here. 
+Tapyrus-Core default RPC ports are here.
 For production chain: `2377`. For development chain: `12381`.
 * `rpc-endpoint-user`
 This is optional.
@@ -156,26 +156,26 @@ There is no default value.
 `[redis]` section is a set of settings for Redis connection.
 
 * `redis-host`
-This is optional. 
+This is optional.
 This is Redis Server hostname or IP Address.
 The default value is `127.0.0.1`.
-* `redis-port` 
+* `redis-port`
 This is optional.
-This is Redis Server port number, which tapyrus-signerd wants to connect to. 
+This is Redis Server port number, which tapyrus-signerd wants to connect to.
 The default value is `6379`.
 
 ## federations.toml
 
-This file is a data file for federation parameters. 
+This file is a data file for federation parameters.
 You must put federation parameters into this file when you want to startup a tapyrus-signerd.
 And you must set the path to `federations.toml` as `federations-file` argument.
 You can use the following way to specify the path.
-* `--federations-file` command-line argument 
+* `--federations-file` command-line argument
 * `federations-file` item in `[signer]` section on `signer.toml`.
 
-This is an example, which has two federation parameters. 
+This is an example, which has two federation parameters.
 The scenario of this case is that the chain starts with the first federation parameters whose `block-height` is 0.
-Then the chain would change the federation to the second one from 100 block height. 
+Then the chain would change the federation to the second one from 100 block height.
 
 ```toml
 [[federation]]
@@ -205,18 +205,18 @@ Here are descriptions for each item.
 
 * `block-height`
 This is required.
-This is the block height where the federation would be enabled. 
+This is the block height where the federation would be enabled.
 Tapyrus Signer Network(TSN) produces a block that has Aggregate public key in their xfield when the height of the block is one before the federation block height.
 There is an exception, which is a genesis block. A genesis block always has Aggregate public key.
 * `threshold`
 This is optional.
 This is the threshold the federation requires what number of agreements to produce block proofs.
-The threshold must be greater than and equal to two-three of federation members count. 
+The threshold must be greater than and equal to two-three of federation members count.
 This item should not specify if the signer is not a member of the federation.
 * `aggregated-public-key`
 This is required.
 This is the public key, which can be used to verify block proofs.
-This public key is aggregate of all federation member's public keys.  
+This public key is aggregate of all federation member's public keys.
 * `node-vss`
 This is optional.
 Verifiable Secret Share and commitments from all signers in the federation.
@@ -295,7 +295,7 @@ node-vss = [
 ]
 ```
 
-Before generating 100 height block proof, you should startup your tapyrus-signerd daemon. 
+Before generating 100 height block proof, you should startup your tapyrus-signerd daemon.
 
 If you don't have Node VSSs and Aggregate public key for the federation you would join, you should follow steps in [Generate Aggregate public key and Node secret share for Tapyrus-signer network](doc/setup.md#generate-aggregate-public-key-and-node-secret-share-for-tapyrus-signer-network)
 
@@ -328,7 +328,7 @@ node-vss = [
   "02ce7edc292d7b747fab...",
   "03831a69b8009833ab5b..."
 ]
-``` 
+```
 
 If you don't have Node VSSs and Aggregate public key for the new federation, you should follow steps in [Generate Aggregate public key and Node secret share for Tapyrus-signer network](doc/setup.md#generate-aggregate-public-key-and-node-secret-share-for-tapyrus-signer-network)
 
