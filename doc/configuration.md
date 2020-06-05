@@ -92,77 +92,69 @@ Here describe each item above.
 
 `[general]` section is a set of settings for the application.
 
-* `round-duration` is round-robin duration time(sec).
-This is optional. The default duration is 60 sec.
-if you want more slowly or quickly block creation, then set more big/small duration time.
-* `round-limit` is time limit for the communication in each round. If the communications for rounds
-spends time more than round limit, the round would be regarded as a failure round and the next round would be started. This is optional, default is 15 sec.
-* `log-quiet` is set `true` to silent of log report.
-This is optional, default false
-* `log-level` is Log Level.
-selectable values are `trace`, `debug`, `info`, `warn` or `error`.
-This is optional, default value `info`.
-* `daemon` is a flag to run node as a daemon process. Set true, then the node runs as a daemon.
-* `pid`
-Specify the pid file path. This option is enabled when the node got '--daemon' flag.
-* `log-file`
-Specify where log file export to. This option is enabled when the node got '--daemon' flag.
-If not, logs are put on stdout and stderr.
+* `round-duration` is the duration of each round in seconds. It implies interval of block creation.
+If you want to adjust the frequency of block creation, increase/decrease this value.
+If not specified, defaults to 60 seconds.
+* `round-limit` is timeout for the communication in each round. If the communications for rounds
+spends time more than `round-limit`, the round would be regarded as a failed round and the next round will start.
+If not specified, defaults to 15 seconds.
+* `log-quiet` is a boolean value which mutes log output.
+If not specified, defaults to false.
+* `log-level` controls the number of messages logged.
+Possible values are `trace`, `debug`, `info`, `warn`, and `error`.
+If not specified, defaults to `info`.
+* `daemon` is a flag to run the process as a daemon.
+If not specified, defaults to false so the process will run in foreground.
+* `pid` sets the path of pid file. This option is effective when `daemon` flag is set to true.
+* `log-file` sets the path of log file. This option is effective when `daemon` flag is set to true.
+If not specified, logs are writen to stdout/stderr.
 * `skip-waiting-ibd` is a flag make signer node don't waiting connected Tapyrus full node finishes Initial Block
 Download when signer node started. When block creation stopped much time, The status of Tapyrus full node changes to
 progressing Initial Block Download. In this case, block creation is never resume, because signer node waits the status
 is back to non-IBD. So you can use this flag to start signer node with ignore tapyrus full node status.
-This is optional, default false.
+If not specified, defaults to false.
 
 ### [signer] section
 
 `[signer]` section is a set of settings for the consensus algorithm used in Tapyrus Signer/Core Network.
 
-* `to-address`
-This is required.
+* `to-address` **(mandatory)**
 This address is used for coinbase transaction outputs in blocks which is proposed by the signer.
-* `public-key`
-This is required. This specifies the signer's public key, who hosted the node.
+* `public-key` **(mandatory)**
+This specifies the signer's public key, who hosted the node.
 The public key format is compressed hex string.
-* `federations-file`
-This is required. This specifies the path to the TOML file of the federations of the chain.
+* `federations-file` **(mandatory)**
+This specifies the path to the TOML file of the federations of the chain.
 
 ### [rpc] section
 
 `[rpc]` section is a set of settings for RPC connection to the Tapyrus Core node.
 
 * `rpc-endpoint-host`
-This is optional.
-TapyrusCore RPC endpoint hostname. The default value is `127.0.0.1`.
+Specify the TapyrusCore RPC endpoint. If not specified, defaults to `127.0.0.1`.
 * `rpc-endpoint-port`
-This is optional.
-This is the Tapyrus Core RPC endpoint port number.
+Specify the TapyrusCore RPC endpoint port.
+If not specified, defaults to `2377` (production chain).
 The default is `2377` (production chain).
 Tapyrus-Core default RPC ports are here.
 For production chain: `2377`. For development chain: `12381`.
 * `rpc-endpoint-user`
-This is optional.
-This is the Tapyrus Core RPC user name for authentication.
-This is required if you set a username to your TapyrusCore RPC Server.
-There is no default value.
+Specify the TapyrusCore RPC username.
+This is mandatory if the RPC server is configured to use password authentication.
 * `rpc-endpoint-pass`
-This is optional.
-This is the Tapyrus Core RPC password for authentication.
-This is required if you set a password to your TapyrusCore RPC Server.
-There is no default value.
+Specify the TapyrusCore RPC password.
+This is mandatory if the RPC server is configured to use password authentication.
 
 ### [redis] seciton
 
 `[redis]` section is a set of settings for Redis connection.
 
 * `redis-host`
-This is optional.
-This is Redis Server hostname or IP Address.
-The default value is `127.0.0.1`.
+Specify the Redis server.
+If not specified, defaults to `127.0.0.1`.
 * `redis-port`
-This is optional.
-This is Redis Server port number, which tapyrus-signerd wants to connect to.
-The default value is `6379`.
+Specify the Redis server port.
+If not specified, defaults to `6379`.
 
 ## federations.toml
 
@@ -203,18 +195,15 @@ node-vss = [
 
 Here are descriptions for each item.
 
-* `block-height`
-This is required.
+* `block-height` **(mandatory)**
 This is the block height where the federation would be enabled.
 Tapyrus Signer Network(TSN) produces a block that has Aggregate public key in their xfield when the height of the block is one before the federation block height.
 There is an exception, which is a genesis block. A genesis block always has Aggregate public key.
 * `threshold`
-This is optional.
 This is the threshold the federation requires what number of agreements to produce block proofs.
 The threshold must be greater than and equal to two-three of federation members count.
 This item should not specify if the signer is not a member of the federation.
-* `aggregated-public-key`
-This is required.
+* `aggregated-public-key` **(mandatory)**
 This is the public key, which can be used to verify block proofs.
 This public key is aggregate of all federation member's public keys.
 * `node-vss`
